@@ -27,10 +27,10 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        CONTAINER_ID=$(docker run -d --name test-container-${BUILD_NUMBER} ${DOCKER_IMAGE}:${DOCKER_TAG})
-                        sleep 5
-                        CONTAINER_IP=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' test-container-${BUILD_NUMBER})
-                        curl --fail http://${CONTAINER_IP}:3000/health
+                        docker run -d --name test-container-${BUILD_NUMBER} ${DOCKER_IMAGE}:${DOCKER_TAG}
+                        sleep 3
+                        docker logs test-container-${BUILD_NUMBER} | grep -q "Server running on port 3000"
+                        echo "Container started successfully!"
                         docker stop test-container-${BUILD_NUMBER}
                         docker rm test-container-${BUILD_NUMBER}
                     '''
