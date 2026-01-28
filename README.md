@@ -1,4 +1,5 @@
 # DevOps Platform
+![CI Pipeline](https://github.com/ethanphodo/devops-platform/actions/workflows/ci.yml/badge.svg)
 
 A demonstration project showcasing CI/CD pipelines, Docker containerization, and infrastructure automation. Built as part of my DevOps learning journey.
 
