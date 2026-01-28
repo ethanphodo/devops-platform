@@ -27,9 +27,10 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        docker run -d -p 3001:3000 --name test-container-${BUILD_NUMBER} ${DOCKER_IMAGE}:${DOCKER_TAG}
+                        CONTAINER_ID=$(docker run -d --name test-container-${BUILD_NUMBER} ${DOCKER_IMAGE}:${DOCKER_TAG})
                         sleep 5
-                        curl --fail http://localhost:3001/health
+                        CONTAINER_IP=$(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' test-container-${BUILD_NUMBER})
+                        curl --fail http://${CONTAINER_IP}:3000/health
                         docker stop test-container-${BUILD_NUMBER}
                         docker rm test-container-${BUILD_NUMBER}
                     '''
@@ -40,6 +41,8 @@ pipeline {
     
     post {
         always {
+            sh 'docker stop test-container-${BUILD_NUMBER} || true'
+            sh 'docker rm test-container-${BUILD_NUMBER} || true'
             sh 'docker system prune -f || true'
         }
         success {
