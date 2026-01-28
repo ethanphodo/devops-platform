@@ -1,0 +1,40 @@
+# Dependencies
+node_modules/
+app/node_modules/
+
+# Test coverage
+coverage/
+app/coverage/
+.nyc_output/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Build artifacts
+dist/
+build/
+
+# Docker
+.docker/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
